@@ -69,6 +69,9 @@ void Fl_Button::setonly() { // set this radio button on, turn others off
 void Fl_Button::draw() {
   if (type() == FL_HIDDEN_BUTTON) return;
   Fl_Color col = value() ? selection_color() : color();
+  if (Fl::is_scheme("flat") && Fl::belowmouse() == this) {
+    col = value()?fl_rgb_color(88, 187, 252):fl_rgb_color(150, 213, 254);
+  }
   draw_box(value() ? (down_box()?down_box():fl_down(box())) : box(), col);
   draw_backdrop();
   if (labeltype() == FL_NORMAL_LABEL && value()) {
@@ -86,6 +89,7 @@ int Fl_Button::handle(int event) {
   case FL_ENTER: /* FALLTHROUGH */
   case FL_LEAVE:
 //  if ((value_?selection_color():color())==FL_GRAY) redraw();
+	if (Fl::is_scheme("flat"))redraw();
     return 1;
   case FL_PUSH:
     if (Fl::visible_focus() && handle(FL_FOCUS)) Fl::focus(this);

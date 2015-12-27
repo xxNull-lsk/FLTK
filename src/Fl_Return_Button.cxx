@@ -42,7 +42,11 @@ void Fl_Return_Button::draw() {
   if (type() == FL_HIDDEN_BUTTON) return;
   Fl_Boxtype bt = value() ? (down_box()?down_box():fl_down(box())) : box();
   int dx = Fl::box_dx(bt);
-  draw_box(bt, value() ? selection_color() : color());
+  Fl_Color col = color();
+  if (Fl::is_scheme("flat") && Fl::belowmouse() == this) {
+    col = value()?fl_rgb_color(88, 187, 252):fl_rgb_color(150, 213, 254);
+  }
+  draw_box(bt, value() ? selection_color() : col);
   int W = h();
   if (w()/3 < W) W = w()/3;
   fl_return_arrow(x()+w()-(W+dx), y(), W, h());

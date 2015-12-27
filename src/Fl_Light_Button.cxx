@@ -30,7 +30,13 @@
 #include "flstring.h"
 
 void Fl_Light_Button::draw() {
-  if (box()) draw_box(this==Fl::pushed() ? fl_down(box()) : box(), color());
+  if (box()){
+    Fl_Color col = color();
+    if (Fl::is_scheme("flat") && Fl::belowmouse() == this) {
+      col = value()?fl_rgb_color(88, 187, 252):fl_rgb_color(150, 213, 254);
+    }
+    draw_box(this==Fl::pushed() ? fl_down(box()) : box(), col);
+  }
   Fl_Color col = value() ? (active_r() ? selection_color() :
                             fl_inactive(selection_color())) : color();
 
@@ -133,6 +139,7 @@ void Fl_Light_Button::draw() {
     } else {
       draw_box(FL_THIN_DOWN_BOX, x()+xx, y()+dy+1, ww, hh, col);
     }
+    
     lx = dx + ww + 2;
   }
   draw_label(x()+lx, y(), w()-lx-bx, h());
